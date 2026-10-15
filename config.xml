@@ -7,10 +7,22 @@
     <description>Jellyfin for Samsung Smart TV (Tizen).</description>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <icon src="icon.png"/>
-    <tizen:metadata key="http://tizen.org/metadata/app_ui_type/base_screen_resolution" value="fullscreen"/>
+    <tizen:metadata key="http://tizen.org/metadata/app_ui_type/base_screen_resolution" value="extensive"/>
+    <tizen:metadata key="http://samsung.com/tv/metadata/use.preview" value="bg_service"/>
     <name>Jellyfin</name>
     <tizen:privilege name="http://developer.samsung.com/privilege/productinfo"/>
     <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
     <tizen:profile name="tv"/>
+    <tizen:service id="AprZAARz4r.Jellyfin.service" auto-restart="false">
+        <tizen:content src="service/service.js"></tizen:content>
+        <tizen:name>service</tizen:name>
+        <tizen:icon src="icon.png"></tizen:icon>
+        <tizen:description>Jellyfin Preview Probe Service</tizen:description>
+        <tizen:category name="http://tizen.org/category/service"></tizen:category>
+    </tizen:service>
+    <tizen:app-control>
+        <tizen:src name="index.html" reload="disable"></tizen:src>
+        <tizen:operation name="http://samsung.com/appcontrol/operation/eden_resume"></tizen:operation>
+    </tizen:app-control>
     <tizen:setting screen-orientation="auto-rotation" context-menu="enable" background-support="disable" encryption="disable" install-location="auto" hwkey-event="enable"/>
 </widget>

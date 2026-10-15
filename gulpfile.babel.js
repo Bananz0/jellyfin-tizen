@@ -71,6 +71,19 @@ function modifyIndex() {
             meta.setAttribute('content', 'default-src * \'self\' \'unsafe-inline\' \'unsafe-eval\' data: gap: file: filesystem: ws: wss:;');
             this.head.appendChild(meta);
 
+            // Ensure Samsung's required responsive viewport is present.
+            const viewport = this.querySelector('meta[name="viewport"]');
+            const viewportContent = viewport && viewport.getAttribute('content');
+
+            if (!viewport) {
+                const viewportMeta = this.createElement('meta');
+                viewportMeta.setAttribute('name', 'viewport');
+                viewportMeta.setAttribute('content', 'width=device-width');
+                this.head.appendChild(viewportMeta);
+            } else if (!/width\s*=\s*device-width/i.test(viewportContent || '')) {
+                viewport.setAttribute('content', 'width=device-width');
+            }
+
             // Search for injected main.bundle
             let apploader = this.querySelector('script[src^=main]');
 
@@ -112,6 +125,12 @@ function modifyIndex() {
             tizen.setAttribute('src', '../tizen.js');
             tizen.setAttribute('defer', '');
             injectTarget.insertBefore(tizen, apploader);
+
+            // inject avplay plugin bridge
+            const avplayPlugin = this.createElement('script');
+            avplayPlugin.setAttribute('src', '../avplay-plugin.js');
+            avplayPlugin.setAttribute('defer', '');
+            injectTarget.insertBefore(avplayPlugin, apploader);
 
             return this;
         }))
